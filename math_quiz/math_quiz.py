@@ -16,7 +16,6 @@ random_int : int
     result of the random integer selection between min and max
 """
     random_int = random.randint(min, max)
-
     return random_int
 
 
@@ -31,9 +30,7 @@ def random_operation():
     random_op : str
         result of the random operation selection between '+', '-', '*'
     """
-
     random_op = random.choice(['+', '-', '*'])
-
     return random_op
 
 
@@ -57,14 +54,16 @@ def create_problem(number1, number2, operation):
 
     problem = f"{number1} {operation} {number2}"
     if operation == '+': answer = number1 + number2
+    #if the operation is a substraction we use number2 - number1
     elif operation == '-': answer = number1 - number2
     else: answer = number1 * number2
     return problem, answer 
 
 
 def math_quiz(number_questions=5):
-    """simple math quiz game. It generates random math problems, prompts the user to solve them, 
-    and provides feedback on the correctness of their answers. The user earns a point for each correct answer, 
+    """simple math quiz game. It generates random math problems, prompts 
+    the user to solve them, and provides feedback on the correctness of 
+    their answers. The user earns a point for each correct answer, 
     and the final score is displayed at the end of the game.
 
     Parameters
@@ -88,13 +87,23 @@ def math_quiz(number_questions=5):
 
     for _ in range(number_questions):
         #select 2 random numbers and a random operation
-        number1 = random_integer(1, 10); number2 = random_integer(1, 5); operation = random_operation() #ojo al tipo de datos en number2 integer?
+        number1 = random_integer(1, 10); number2 = random_integer(1, 5); operation = random_operation() 
 
         #create a problem with those numbers and obtain the answer
         problem, answer = create_problem(number1, number2, operation)
         print(f"\nQuestion: {problem}")
-        useranswer = input("Your answer: ")
-        useranswer = int(useranswer)
+        #useranswer = input("Your answer: ")
+
+        # Error handling for user input 
+        # While True loop in order to keep the same question until the input is an integer
+        while True:
+            try:
+                useranswer = int(input("Your answer: "))
+                break  # Break out of the loop if input is valid
+
+            except ValueError:
+                     print("Invalid input! Please enter a valid integer. Try again.")
+
 
         #compare the user's answer to the correct answer and if sum the corresponding points
         if useranswer == answer:
